@@ -11,7 +11,7 @@ from datetime import datetime
 first_frame=None
 status_list=[None,None]
 times=[]
-df=pandas.DataFrame(columns=["Start","End"])
+# df=pandas.DataFrame(columns=["Start","End"]) #commented out, df.append() will be abandoned with new pandas release
 
 video=cv2.VideoCapture(0,cv2.CAP_DSHOW)
 
@@ -65,11 +65,16 @@ while True:
 print(status_list)
 print(times)
 
+l=[]
 #will append start and end times to pandas dataframe in csv
 for i in range(0,len(times),2):
-    # df["Start"]=times[i]
-    # df["End"]=times[i+1]
-    df = df.append({"Start": times[i], "End": times[i+1]}, ignore_index=True)
+    d={}
+    d["Start"]=times[i]
+    d["End"]=times[i+1]
+    # df = df.append({"Start": times[i], "End": times[i+1]}, ignore_index=True) #old method, df.append will be abandoned with new pandas release
+    l.append(d)
+
+df=pandas.DataFrame(l)
 
 df.to_csv("Times.csv")
 
